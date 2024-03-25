@@ -4,7 +4,6 @@ using System.IO;
 using System.ServiceProcess;
 using Serilog;
 using Serilog.Formatting.Compact;
-using Sprache;
 
 namespace LogAnalyst
 {
@@ -85,7 +84,7 @@ namespace LogAnalyst
                         Console.WriteLine($"Log parsing failed for log: {chunk}");
                     }
                 }
-                catch (ParseException ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"ParseException occurred: {ex.Message}");
                 }
