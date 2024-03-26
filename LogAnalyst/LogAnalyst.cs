@@ -18,15 +18,14 @@ namespace LogAnalyst
 
         protected override void OnStart(string[] args)
         {
-            logger = new LoggerConfiguration()
-              .WriteTo.File(new CompactJsonFormatter(), "./logs/myapp.clef")
-              .CreateLogger();
+            //logger = new LoggerConfiguration()
+            //  .WriteTo.File(new CompactJsonFormatter(), "./logs/myapp.clef")
+            //  .CreateLogger();
 
-            logger.Information("Service started.");
-            logger.Information("Service is good.");
-            logger.Warning("Service is not good.");
-            logger.Error("Service have a error.");
-
+            //logger.Information("Service started.");
+            //logger.Information("Service is good.");
+            //logger.Warning("Service is not good.");
+            //logger.Error("Service have a error.");
             StartParsingLogs();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace LogAnalyst
 {
@@ -6,26 +7,16 @@ namespace LogAnalyst
     {
         public static LogEntry ParseLog(string log)
         {
-            var logEntry = new LogEntry();
-            int startIndex = 0;
+            var logParts = log.Split(' ');
 
-            int endIndex = log.IndexOf(' ', startIndex);
-            logEntry.Source = log.Substring(startIndex, endIndex - startIndex);
-            startIndex = endIndex + 1;
-
-            endIndex = log.IndexOf(' ', startIndex);
-            logEntry.Date = log.Substring(startIndex, endIndex - startIndex);
-            startIndex = endIndex + 1;
-
-            endIndex = log.IndexOf(' ', startIndex);
-            logEntry.Time = log.Substring(startIndex, endIndex - startIndex);
-            startIndex = endIndex + 1;
-
-            endIndex = log.IndexOf(' ', startIndex);
-            logEntry.Level = log.Substring(startIndex, endIndex - startIndex);
-            startIndex = endIndex + 1;
-
-            logEntry.Message = log.Substring(startIndex);
+            var logEntry = new LogEntry
+            {
+                Source = logParts[0],
+                Date = logParts[1],
+                Time = logParts[2],
+                Level = logParts[3],
+                Message = string.Join(" ", logParts.Skip(4))
+            };
             return logEntry;
         }
     }
