@@ -31,8 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogAnalystApp));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtBoxSearch = new System.Windows.Forms.TextBox();
             this.lblLogFileName = new System.Windows.Forms.Label();
             this.dataGridViewLogEntries = new System.Windows.Forms.DataGridView();
+            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OpenFile = new System.Windows.Forms.MenuStrip();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,11 +48,6 @@
             this.LogLevelCartesianChart = new LiveCharts.WinForms.CartesianChart();
             this.LogLevelPieChart = new LiveCharts.WinForms.PieChart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogEntries)).BeginInit();
@@ -70,22 +72,49 @@
             this.tabPage1.BackColor = System.Drawing.Color.White;
             this.tabPage1.BackgroundImage = global::LogAnalystApp.Properties.Resources.LogoAnalystapp_1_;
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage1.Controls.Add(this.btnSearch);
+            this.tabPage1.Controls.Add(this.txtBoxSearch);
             this.tabPage1.Controls.Add(this.lblLogFileName);
             this.tabPage1.Controls.Add(this.dataGridViewLogEntries);
             this.tabPage1.Controls.Add(this.OpenFile);
             this.tabPage1.ForeColor = System.Drawing.Color.Coral;
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1297, 693);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Log Parser";
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearch.BackColor = System.Drawing.Color.White;
+            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSearch.FlatAppearance.BorderSize = 5;
+            this.btnSearch.ForeColor = System.Drawing.Color.Black;
+            this.btnSearch.Location = new System.Drawing.Point(692, 38);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(150, 28);
+            this.btnSearch.TabIndex = 4;
+            this.btnSearch.Text = "Search Text";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtBoxSearch
+            // 
+            this.txtBoxSearch.Location = new System.Drawing.Point(317, 38);
+            this.txtBoxSearch.Name = "txtBoxSearch";
+            this.txtBoxSearch.Size = new System.Drawing.Size(372, 28);
+            this.txtBoxSearch.TabIndex = 3;
             // 
             // lblLogFileName
             // 
             this.lblLogFileName.AutoSize = true;
             this.lblLogFileName.ForeColor = System.Drawing.Color.Black;
-            this.lblLogFileName.Location = new System.Drawing.Point(9, 35);
+            this.lblLogFileName.Location = new System.Drawing.Point(10, 41);
             this.lblLogFileName.Name = "lblLogFileName";
             this.lblLogFileName.Size = new System.Drawing.Size(49, 22);
             this.lblLogFileName.TabIndex = 2;
@@ -104,97 +133,13 @@
             this.Time,
             this.Level,
             this.Message});
-            this.dataGridViewLogEntries.Location = new System.Drawing.Point(14, 68);
+            this.dataGridViewLogEntries.Location = new System.Drawing.Point(14, 72);
             this.dataGridViewLogEntries.Name = "dataGridViewLogEntries";
             this.dataGridViewLogEntries.ReadOnly = true;
             this.dataGridViewLogEntries.RowHeadersWidth = 62;
             this.dataGridViewLogEntries.RowTemplate.Height = 28;
-            this.dataGridViewLogEntries.Size = new System.Drawing.Size(1264, 422);
+            this.dataGridViewLogEntries.Size = new System.Drawing.Size(1264, 418);
             this.dataGridViewLogEntries.TabIndex = 1;
-            // 
-            // OpenFile
-            // 
-            this.OpenFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OpenFile.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
-            this.OpenFile.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-            this.OpenFile.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.OpenFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openFileToolStripMenuItem,
-            this.openFolderToolStripMenuItem,
-            this.searchInFilesToolStripMenuItem});
-            this.OpenFile.Location = new System.Drawing.Point(3, 3);
-            this.OpenFile.Name = "OpenFile";
-            this.OpenFile.Padding = new System.Windows.Forms.Padding(3, 2, 0, 2);
-            this.OpenFile.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.OpenFile.Size = new System.Drawing.Size(1291, 32);
-            this.OpenFile.TabIndex = 0;
-            this.OpenFile.Text = "OpenFile";
-            // 
-            // openFileToolStripMenuItem
-            // 
-            this.openFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFileToolStripMenuItem.Image")));
-            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(128, 28);
-            this.openFileToolStripMenuItem.Text = "Open File";
-            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
-            // 
-            // openFolderToolStripMenuItem
-            // 
-            this.openFolderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFolderToolStripMenuItem.Image")));
-            this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(150, 28);
-            this.openFolderToolStripMenuItem.Text = "Open Folder";
-            // 
-            // searchInFilesToolStripMenuItem
-            // 
-            this.searchInFilesToolStripMenuItem.Image = global::LogAnalystApp.Properties.Resources._3979425;
-            this.searchInFilesToolStripMenuItem.Name = "searchInFilesToolStripMenuItem";
-            this.searchInFilesToolStripMenuItem.Size = new System.Drawing.Size(169, 28);
-            this.searchInFilesToolStripMenuItem.Text = "Search in Files";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.White;
-            this.tabPage2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage2.BackgroundImage")));
-            this.tabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.tabPage2.Controls.Add(this.LogLevelCartesianChart);
-            this.tabPage2.Controls.Add(this.LogLevelPieChart);
-            this.tabPage2.Location = new System.Drawing.Point(4, 31);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage2.Size = new System.Drawing.Size(1412, 693);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Data Visualizer";
-            // 
-            // LogLevelCartesianChart
-            // 
-            this.LogLevelCartesianChart.Location = new System.Drawing.Point(606, 8);
-            this.LogLevelCartesianChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.LogLevelCartesianChart.Name = "LogLevelCartesianChart";
-            this.LogLevelCartesianChart.Size = new System.Drawing.Size(684, 462);
-            this.LogLevelCartesianChart.TabIndex = 2;
-            this.LogLevelCartesianChart.Text = "cartesianChart1";
-            // 
-            // LogLevelPieChart
-            // 
-            this.LogLevelPieChart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.LogLevelPieChart.Location = new System.Drawing.Point(9, 8);
-            this.LogLevelPieChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.LogLevelPieChart.Name = "LogLevelPieChart";
-            this.LogLevelPieChart.Size = new System.Drawing.Size(589, 462);
-            this.LogLevelPieChart.TabIndex = 1;
-            this.LogLevelPieChart.Text = "Log Level Pie Chart";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.White;
-            this.tabPage3.BackgroundImage = global::LogAnalystApp.Properties.Resources.LogoAnalystapp_1_;
-            this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.tabPage3.Location = new System.Drawing.Point(4, 31);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1412, 693);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Settings";
             // 
             // Source
             // 
@@ -235,6 +180,90 @@
             this.Message.Name = "Message";
             this.Message.ReadOnly = true;
             this.Message.Width = 150;
+            // 
+            // OpenFile
+            // 
+            this.OpenFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OpenFile.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.OpenFile.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            this.OpenFile.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.OpenFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openFileToolStripMenuItem,
+            this.openFolderToolStripMenuItem,
+            this.searchInFilesToolStripMenuItem});
+            this.OpenFile.Location = new System.Drawing.Point(3, 3);
+            this.OpenFile.Name = "OpenFile";
+            this.OpenFile.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.OpenFile.Size = new System.Drawing.Size(1291, 32);
+            this.OpenFile.TabIndex = 0;
+            this.OpenFile.Text = "OpenFile";
+            // 
+            // openFileToolStripMenuItem
+            // 
+            this.openFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFileToolStripMenuItem.Image")));
+            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(128, 28);
+            this.openFileToolStripMenuItem.Text = "Open File";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
+            // 
+            // openFolderToolStripMenuItem
+            // 
+            this.openFolderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFolderToolStripMenuItem.Image")));
+            this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
+            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(150, 28);
+            this.openFolderToolStripMenuItem.Text = "Open Folder";
+            this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
+            // 
+            // searchInFilesToolStripMenuItem
+            // 
+            this.searchInFilesToolStripMenuItem.Image = global::LogAnalystApp.Properties.Resources._3979425;
+            this.searchInFilesToolStripMenuItem.Name = "searchInFilesToolStripMenuItem";
+            this.searchInFilesToolStripMenuItem.Size = new System.Drawing.Size(169, 28);
+            this.searchInFilesToolStripMenuItem.Text = "Search in Files";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage2.BackgroundImage")));
+            this.tabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage2.Controls.Add(this.LogLevelCartesianChart);
+            this.tabPage2.Controls.Add(this.LogLevelPieChart);
+            this.tabPage2.Location = new System.Drawing.Point(4, 31);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1297, 693);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Data Visualizer";
+            // 
+            // LogLevelCartesianChart
+            // 
+            this.LogLevelCartesianChart.Location = new System.Drawing.Point(606, 8);
+            this.LogLevelCartesianChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LogLevelCartesianChart.Name = "LogLevelCartesianChart";
+            this.LogLevelCartesianChart.Size = new System.Drawing.Size(684, 462);
+            this.LogLevelCartesianChart.TabIndex = 2;
+            this.LogLevelCartesianChart.Text = "cartesianChart1";
+            // 
+            // LogLevelPieChart
+            // 
+            this.LogLevelPieChart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.LogLevelPieChart.Location = new System.Drawing.Point(9, 8);
+            this.LogLevelPieChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LogLevelPieChart.Name = "LogLevelPieChart";
+            this.LogLevelPieChart.Size = new System.Drawing.Size(598, 462);
+            this.LogLevelPieChart.TabIndex = 1;
+            this.LogLevelPieChart.Text = "Log Level Pie Chart";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.White;
+            this.tabPage3.BackgroundImage = global::LogAnalystApp.Properties.Resources.LogoAnalystapp_1_;
+            this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage3.Location = new System.Drawing.Point(4, 31);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1297, 693);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Settings";
             // 
             // LogAnalystApp
             // 
@@ -281,6 +310,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Message;
+        private System.Windows.Forms.TextBox txtBoxSearch;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
 

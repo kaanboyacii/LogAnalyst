@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Globalization;
+using System.Windows.Controls;
 
 namespace LogAnalystApp
 {
@@ -21,6 +22,45 @@ namespace LogAnalystApp
             logParserService = new LogParserService();
             dataGridViewLogEntries.AutoResizeColumns();
         }
+
+        private void LoadLogEntries(List<LogEntry> logEntries)
+        {
+            dataGridViewLogEntries.Rows.Clear();
+
+            foreach (var logEntry in logEntries)
+            {
+                int rowIndex = dataGridViewLogEntries.Rows.Add();
+                dataGridViewLogEntries.Rows[rowIndex].Cells["Source"].Value = logEntry.Source;
+                dataGridViewLogEntries.Rows[rowIndex].Cells["Date"].Value = logEntry.Date;
+                dataGridViewLogEntries.Rows[rowIndex].Cells["Time"].Value = logEntry.Time;
+                dataGridViewLogEntries.Rows[rowIndex].Cells["Level"].Value = logEntry.Level;
+                dataGridViewLogEntries.Rows[rowIndex].Cells["Message"].Value = logEntry.Message;
+
+                if (logEntry.Level == "ERR")
+                {
+                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                }
+                else if (logEntry.Level == "WRN")
+                {
+                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Orange;
+                }
+                else if (logEntry.Level == "INF")
+                {
+                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Blue;
+                }
+                else
+                {
+                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+
+            dataGridViewLogEntries.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewLogEntries.Refresh();
+
+            AddLogLevelsToPieChart(logEntries);
+            AddDatesToCartesianChart(logEntries);
+        }
+
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -34,39 +74,32 @@ namespace LogAnalystApp
                 lblLogFileName.Text = fileName;
 
                 List<LogEntry> logEntries = logParserService.ParseLogFile(filePath);
-                foreach (var logEntry in logEntries)
+                LoadLogEntries(logEntries);
+            }
+        }
+
+        private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.Description = "Select a Folder Containing Log Files";
+
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = folderBrowserDialog.SelectedPath;
+                string folderName = new DirectoryInfo(folderPath).Name;
+                lblLogFileName.Text = $"Folder: {folderName}";
+
+                string[] fileNames = Directory.GetFiles(folderPath, "*.txt");
+
+                List<LogEntry> logEntries = new List<LogEntry>();
+
+                foreach (string fileName in fileNames)
                 {
-                    int rowIndex = dataGridViewLogEntries.Rows.Add();
-                    dataGridViewLogEntries.Rows[rowIndex].Cells["Source"].Value = logEntry.Source;
-                    dataGridViewLogEntries.Rows[rowIndex].Cells["Date"].Value = logEntry.Date;
-                    dataGridViewLogEntries.Rows[rowIndex].Cells["Time"].Value = logEntry.Time;
-                    dataGridViewLogEntries.Rows[rowIndex].Cells["Level"].Value = logEntry.Level;
-                    dataGridViewLogEntries.Rows[rowIndex].Cells["Message"].Value = logEntry.Message;
+                    List<LogEntry> entries = logParserService.ParseLogFile(fileName);
+                    logEntries.AddRange(entries);
                 }
 
-                dataGridViewLogEntries.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridViewLogEntries.Refresh();
-                foreach (DataGridViewRow row in dataGridViewLogEntries.Rows)
-                {
-                    if (row.Cells["Level"].Value != null)
-                    {
-                        string level = row.Cells["Level"].Value.ToString();
-                        if (level == "ERR")
-                        {
-                            row.DefaultCellStyle.ForeColor = Color.Red;
-                        }
-                        else if (level == "WRN")
-                        {
-                            row.DefaultCellStyle.ForeColor = Color.Orange;
-                        }
-                        else
-                        {
-                            row.DefaultCellStyle.ForeColor = Color.Black;
-                        }                   
-                    }
-                }
-                AddLogLevelsToPieChart(logEntries);
-                AddDatesToCartesianChart(logEntries);
+                LoadLogEntries(logEntries);
             }
         }
 
@@ -99,6 +132,9 @@ namespace LogAnalystApp
                         break;
                     case "WRN":
                         series.Fill = System.Windows.Media.Brushes.Orange;
+                        break;                    
+                    case "INF":
+                        series.Fill = System.Windows.Media.Brushes.Blue;
                         break;
                     default:
                         series.Fill = System.Windows.Media.Brushes.Black;
@@ -146,6 +182,24 @@ namespace LogAnalystApp
                 LabelFormatter = value => value.ToString()
             });
             LogLevelCartesianChart.Series = cartesianSeries;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = txtBoxSearch.Text.ToLower();
+            foreach (DataGridViewRow row in dataGridViewLogEntries.Rows)
+            {
+                bool found = false;
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchText))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                row.Visible = found;
+            }
         }
 
     }
