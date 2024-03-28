@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace LogAnalystApp.Business
 {
@@ -13,37 +12,38 @@ namespace LogAnalystApp.Business
         {
             List<LogEntry> logEntries = new List<LogEntry>();
 
+            string pattern = @"^(?<Source>[^\s]+)\s(?<Timestamp>\d{2}\.\d{2}\.\d{4}\s\d{2}:\d{2}:\d{2}\.\d{3})\s\[(?<Level>[^\]]+)\]\s(?<Message>.+)$";
+            Regex regex = new Regex(pattern, RegexOptions.Multiline);
+
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
-                string currentLogChunk = "";
+                string currentLog = "";
 
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (IsLogLevel(line))
+                    Match match = regex.Match(line);
+                    if (match.Success)
                     {
-                        if (!string.IsNullOrEmpty(currentLogChunk))
+                        if (!string.IsNullOrEmpty(currentLog))
                         {
-                            logEntries.Add(ParseLog(currentLogChunk));
-                            currentLogChunk = "";
+                            logEntries.Add(ParseLog(currentLog));
                         }
+                        currentLog = line;
                     }
-
-                    currentLogChunk += line + "\n";
+                    else
+                    {
+                        currentLog += Environment.NewLine + line;
+                    }
                 }
 
-                if (!string.IsNullOrEmpty(currentLogChunk))
+                if (!string.IsNullOrEmpty(currentLog))
                 {
-                    logEntries.Add(ParseLog(currentLogChunk));
+                    logEntries.Add(ParseLog(currentLog));
                 }
             }
 
             return logEntries;
-        }
-
-        private bool IsLogLevel(string line)
-        {
-            return line.Contains("[ERR]") || line.Contains("[WRN]") || line.Contains("[INF]");
         }
 
         private LogEntry ParseLog(string log)
