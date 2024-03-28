@@ -48,18 +48,20 @@ namespace LogAnalystApp.Business
 
         private LogEntry ParseLog(string log)
         {
-            var logParts = log.Split(' ');
+            string[] logParts = log.Split(' ');
+            string level = logParts[3].Trim('[', ']');
 
             var logEntry = new LogEntry
             {
                 Source = logParts[0],
                 Date = logParts[1],
                 Time = logParts[2],
-                Level = logParts[3],
+                Level = level,
                 Message = string.Join(" ", logParts.Skip(4))
             };
 
             return logEntry;
         }
+
     }
 }

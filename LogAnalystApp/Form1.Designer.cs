@@ -41,6 +41,11 @@
             this.LogLevelCartesianChart = new LiveCharts.WinForms.CartesianChart();
             this.LogLevelPieChart = new LiveCharts.WinForms.PieChart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogEntries)).BeginInit();
@@ -88,10 +93,17 @@
             // 
             // dataGridViewLogEntries
             // 
+            this.dataGridViewLogEntries.AllowUserToAddRows = false;
             this.dataGridViewLogEntries.AllowUserToDeleteRows = false;
             this.dataGridViewLogEntries.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewLogEntries.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewLogEntries.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewLogEntries.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Source,
+            this.Date,
+            this.Time,
+            this.Level,
+            this.Message});
             this.dataGridViewLogEntries.Location = new System.Drawing.Point(14, 68);
             this.dataGridViewLogEntries.Name = "dataGridViewLogEntries";
             this.dataGridViewLogEntries.ReadOnly = true;
@@ -150,7 +162,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 31);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage2.Size = new System.Drawing.Size(1297, 693);
+            this.tabPage2.Size = new System.Drawing.Size(1412, 693);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Data Visualizer";
             // 
@@ -180,9 +192,49 @@
             this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1297, 693);
+            this.tabPage3.Size = new System.Drawing.Size(1412, 693);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Settings";
+            // 
+            // Source
+            // 
+            this.Source.HeaderText = "Source";
+            this.Source.MinimumWidth = 8;
+            this.Source.Name = "Source";
+            this.Source.ReadOnly = true;
+            this.Source.Width = 150;
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.MinimumWidth = 8;
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 150;
+            // 
+            // Time
+            // 
+            this.Time.HeaderText = "Time";
+            this.Time.MinimumWidth = 8;
+            this.Time.Name = "Time";
+            this.Time.ReadOnly = true;
+            this.Time.Width = 150;
+            // 
+            // Level
+            // 
+            this.Level.HeaderText = "Level";
+            this.Level.MinimumWidth = 8;
+            this.Level.Name = "Level";
+            this.Level.ReadOnly = true;
+            this.Level.Width = 150;
+            // 
+            // Message
+            // 
+            this.Message.HeaderText = "Message";
+            this.Message.MinimumWidth = 8;
+            this.Message.Name = "Message";
+            this.Message.ReadOnly = true;
+            this.Message.Width = 150;
             // 
             // LogAnalystApp
             // 
@@ -224,6 +276,11 @@
         private System.Windows.Forms.Label lblLogFileName;
         private LiveCharts.WinForms.PieChart LogLevelPieChart;
         private LiveCharts.WinForms.CartesianChart LogLevelCartesianChart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
     }
 }
 
