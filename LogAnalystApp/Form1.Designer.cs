@@ -77,7 +77,7 @@
             this.tabPage1.Controls.Add(this.lblLogFileName);
             this.tabPage1.Controls.Add(this.dataGridViewLogEntries);
             this.tabPage1.Controls.Add(this.OpenFile);
-            this.tabPage1.ForeColor = System.Drawing.Color.Coral;
+            this.tabPage1.ForeColor = System.Drawing.Color.Black;
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -264,7 +264,7 @@
             this.Message.MinimumWidth = 8;
             this.Message.Name = "Message";
             this.Message.ReadOnly = true;
-            this.Message.Width = 1000;
+            this.Message.Width = 920;
             // 
             // LogAnalystApp
             // 
@@ -280,6 +280,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LogAnalystApp";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LogAnalystApp";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

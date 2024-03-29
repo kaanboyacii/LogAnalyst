@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Controls;
 using LogAnalystApp.Business.LogParser;
+using System.Threading.Tasks;
 
 namespace LogAnalystApp
 {
@@ -23,45 +24,55 @@ namespace LogAnalystApp
             //dataGridViewLogEntries.AutoResizeColumns();
         }
 
-        private void LoadLogEntries(List<LogEntry> logEntries)
+        private async Task LoadLogEntriesAsync(List<LogEntry> logEntries)
         {
             dataGridViewLogEntries.Rows.Clear();
+            int batchSize = 100;
 
-            foreach (var logEntry in logEntries)
+            for (int i = 0; i < logEntries.Count; i += batchSize)
             {
-                int rowIndex = dataGridViewLogEntries.Rows.Add();
-                dataGridViewLogEntries.Rows[rowIndex].Cells["Source"].Value = logEntry.Source;
-                dataGridViewLogEntries.Rows[rowIndex].Cells["Date"].Value = logEntry.Date;
-                dataGridViewLogEntries.Rows[rowIndex].Cells["Time"].Value = logEntry.Time;
-                dataGridViewLogEntries.Rows[rowIndex].Cells["Level"].Value = logEntry.Level;
-                dataGridViewLogEntries.Rows[rowIndex].Cells["Message"].Value = logEntry.Message;
+                int remainingCount = Math.Min(batchSize, logEntries.Count - i);
+                for (int j = 0; j < remainingCount; j++)
+                {
+                    int rowIndex = dataGridViewLogEntries.Rows.Add();
+                    LogEntry logEntry = logEntries[i + j];
+                    dataGridViewLogEntries.Rows[rowIndex].Cells["Source"].Value = logEntry.Source;
+                    dataGridViewLogEntries.Rows[rowIndex].Cells["Date"].Value = logEntry.Date;
+                    dataGridViewLogEntries.Rows[rowIndex].Cells["Time"].Value = logEntry.Time;
+                    dataGridViewLogEntries.Rows[rowIndex].Cells["Level"].Value = logEntry.Level;
+                    dataGridViewLogEntries.Rows[rowIndex].Cells["Message"].Value = logEntry.Message;
 
-                if (logEntry.Level == "ERR")
-                {
-                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                    DataGridViewCellStyle cellStyle = dataGridViewLogEntries.Rows[rowIndex].Cells["Level"].Style;
+                    switch (logEntry.Level)
+                    {
+                        case "ERR":
+                            cellStyle.ForeColor = Color.Red;
+                            break;
+                        case "WRN":
+                            cellStyle.ForeColor = Color.Orange;
+                            break;
+                        case "INF":
+                            cellStyle.ForeColor = Color.Blue;
+                            break;
+                        default:
+                            cellStyle.ForeColor = Color.Black;
+                            break;
+                    }
                 }
-                else if (logEntry.Level == "WRN")
+
+                dataGridViewLogEntries.Refresh(); 
+                if (i + batchSize < logEntries.Count)
                 {
-                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Orange;
-                }
-                else if (logEntry.Level == "INF")
-                {
-                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Blue;
-                }
-                else
-                {
-                    dataGridViewLogEntries.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                    await Task.Delay(10);
                 }
             }
-
-            //dataGridViewLogEntries.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewLogEntries.Refresh();
-
+            MessageBox.Show("Parse operation completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             AddLogLevelsToPieChart(logEntries);
             AddDatesToCartesianChart(logEntries);
         }
 
-        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text Files|*.txt";
@@ -73,12 +84,11 @@ namespace LogAnalystApp
                 string fileName = $"File: {Path.GetFileName(filePath)}";
                 lblLogFileName.Text = fileName;
 
-                List<LogEntry> logEntries = logParserService.ParseLogFile(filePath);
-                LoadLogEntries(logEntries);
+                List<LogEntry> logEntries = await Task.Run(() => logParserService.ParseLogFile(filePath));
+                await LoadLogEntriesAsync(logEntries);
             }
         }
-
-        private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             folderBrowserDialog.Description = "Select a Folder Containing Log Files";
@@ -95,13 +105,14 @@ namespace LogAnalystApp
 
                 foreach (string fileName in fileNames)
                 {
-                    List<LogEntry> entries = logParserService.ParseLogFile(fileName);
+                    List<LogEntry> entries = await Task.Run(() => logParserService.ParseLogFile(fileName));
                     logEntries.AddRange(entries);
                 }
 
-                LoadLogEntries(logEntries);
+                await LoadLogEntriesAsync(logEntries);
             }
         }
+
 
         private void clearLogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
