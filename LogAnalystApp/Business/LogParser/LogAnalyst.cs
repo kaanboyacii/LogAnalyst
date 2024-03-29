@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace LogAnalystApp.Business
+namespace LogAnalystApp.Business.LogParser
 {
     public class LogParserService
     {

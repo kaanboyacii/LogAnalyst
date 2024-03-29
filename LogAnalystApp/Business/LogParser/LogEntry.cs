@@ -1,4 +1,4 @@
-﻿namespace LogAnalystApp.Business
+﻿namespace LogAnalystApp.Business.LogParser
 {
     public class LogEntry
     {

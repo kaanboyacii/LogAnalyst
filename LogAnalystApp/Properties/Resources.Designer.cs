@@ -73,6 +73,16 @@ namespace LogAnalystApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _979773 {
+            get {
+                object obj = ResourceManager.GetObject("979773", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LogoAnalystapp_1_ {
             get {
                 object obj = ResourceManager.GetObject("LogoAnalystapp(1)", resourceCulture);

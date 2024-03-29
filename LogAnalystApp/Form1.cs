@@ -1,6 +1,5 @@
 ﻿using LiveCharts.Wpf;
 using LiveCharts;
-using LogAnalystApp.Business;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +8,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Controls;
+using LogAnalystApp.Business.LogParser;
 
 namespace LogAnalystApp
 {
@@ -20,7 +20,7 @@ namespace LogAnalystApp
         {
             InitializeComponent();
             logParserService = new LogParserService();
-            dataGridViewLogEntries.AutoResizeColumns();
+            //dataGridViewLogEntries.AutoResizeColumns();
         }
 
         private void LoadLogEntries(List<LogEntry> logEntries)
@@ -54,7 +54,7 @@ namespace LogAnalystApp
                 }
             }
 
-            dataGridViewLogEntries.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            //dataGridViewLogEntries.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewLogEntries.Refresh();
 
             AddLogLevelsToPieChart(logEntries);
@@ -101,6 +101,11 @@ namespace LogAnalystApp
 
                 LoadLogEntries(logEntries);
             }
+        }
+
+        private void clearLogsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridViewLogEntries.Rows.Clear();
         }
 
         private void AddLogLevelsToPieChart(List<LogEntry> logEntries)
@@ -150,37 +155,74 @@ namespace LogAnalystApp
 
         private void AddDatesToCartesianChart(List<LogEntry> logEntries)
         {
-            Dictionary<string, int> monthlyLogCounts = new Dictionary<string, int>();
+            LogLevelCartesianChart.Series.Clear();
+            LogLevelCartesianChart.AxisX.Clear();
+            LogLevelCartesianChart.AxisY.Clear();
+            Dictionary<string, Dictionary<string, int>> monthlyLogCountsByLevel = new Dictionary<string, Dictionary<string, int>>();
+
             foreach (var logEntry in logEntries)
             {
                 string month = DateTime.ParseExact(logEntry.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("MMMM");
-                if (!monthlyLogCounts.ContainsKey(month))
+                string level = logEntry.Level;
+
+                if (!monthlyLogCountsByLevel.ContainsKey(month))
                 {
-                    monthlyLogCounts[month] = 0;
+                    monthlyLogCountsByLevel[month] = new Dictionary<string, int>();
                 }
-                monthlyLogCounts[month]++;
+
+                if (!monthlyLogCountsByLevel[month].ContainsKey(level))
+                {
+                    monthlyLogCountsByLevel[month][level] = 0;
+                }
+
+                monthlyLogCountsByLevel[month][level]++;
             }
 
             SeriesCollection cartesianSeries = new SeriesCollection();
-            ColumnSeries series = new ColumnSeries
+
+            Dictionary<string, System.Windows.Media.Color> levelColors = new Dictionary<string, System.Windows.Media.Color>()
             {
-                Title = "Log Entries by Month",
-                Values = new ChartValues<int>(monthlyLogCounts.Values),
-                DataLabels = true
+                { "ERR", System.Windows.Media.Colors.Red },
+                { "WRN", System.Windows.Media.Colors.Orange },
+                { "INF", System.Windows.Media.Colors.Blue }
             };
 
-            cartesianSeries.Add(series);
-            LogLevelCartesianChart.AxisX.Add(new LiveCharts.Wpf.Axis
+            foreach (var level in monthlyLogCountsByLevel.First().Value.Keys)
             {
-                Title = "Months", 
-                Labels = monthlyLogCounts.Keys.ToArray() 
+                LineSeries series = new LineSeries
+                {
+                    Title = level,
+                    Values = new ChartValues<int>(),
+                    DataLabels = true,
+                    Stroke = new System.Windows.Media.SolidColorBrush(levelColors.ContainsKey(level) ? levelColors[level] : System.Windows.Media.Colors.Black)
+                };
+
+                cartesianSeries.Add(series);
+            }
+
+            foreach (var month in monthlyLogCountsByLevel.Keys)
+            {
+                var logCountsForMonth = monthlyLogCountsByLevel[month];
+                foreach (var series in cartesianSeries)
+                {
+                    string level = series.Title;
+                    int count = logCountsForMonth.ContainsKey(level) ? logCountsForMonth[level] : 0;
+                    ((LineSeries)series).Values.Add(count);
+                }
+            }
+
+            LogLevelCartesianChart.AxisX.Add(new Axis
+            {
+                Title = "Months",
+                Labels = monthlyLogCountsByLevel.Keys.ToArray()
             });
 
-            LogLevelCartesianChart.AxisY.Add(new LiveCharts.Wpf.Axis
+            LogLevelCartesianChart.AxisY.Add(new Axis
             {
-                Title = "Log Entries Count", 
+                Title = "Log Entries Count",
                 LabelFormatter = value => value.ToString()
             });
+
             LogLevelCartesianChart.Series = cartesianSeries;
         }
 
@@ -201,6 +243,5 @@ namespace LogAnalystApp
                 row.Visible = found;
             }
         }
-
     }
 }

@@ -64,8 +64,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\LogAnalyst.cs" />
-    <Compile Include="Business\LogEntry.cs" />
+    <Compile Include="Business\LogParser\LogAnalyst.cs" />
+    <Compile Include="Business\LogParser\LogEntry.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\3979425.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\979773.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
