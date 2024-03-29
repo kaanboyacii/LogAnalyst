@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogAnalyst", "LogAnalyst\LogAnalyst.csproj", "{EBB4CBFE-FD8F-44CA-ADEF-D029F0EA2D06}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogAnalystApp", "LogAnalystApp\LogAnalystApp.csproj", "{BD8788FE-0387-4073-A7B2-FAD15115CE12}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBB4CBFE-FD8F-44CA-ADEF-D029F0EA2D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBB4CBFE-FD8F-44CA-ADEF-D029F0EA2D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBB4CBFE-FD8F-44CA-ADEF-D029F0EA2D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBB4CBFE-FD8F-44CA-ADEF-D029F0EA2D06}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD8788FE-0387-4073-A7B2-FAD15115CE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD8788FE-0387-4073-A7B2-FAD15115CE12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD8788FE-0387-4073-A7B2-FAD15115CE12}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -135,7 +135,6 @@
             this.Message});
             this.dataGridViewLogEntries.Location = new System.Drawing.Point(14, 72);
             this.dataGridViewLogEntries.Name = "dataGridViewLogEntries";
-            this.dataGridViewLogEntries.ReadOnly = true;
             this.dataGridViewLogEntries.RowHeadersWidth = 62;
             this.dataGridViewLogEntries.RowTemplate.Height = 28;
             this.dataGridViewLogEntries.Size = new System.Drawing.Size(1589, 605);
@@ -231,15 +230,13 @@
             this.Source.HeaderText = "Source";
             this.Source.MinimumWidth = 8;
             this.Source.Name = "Source";
-            this.Source.ReadOnly = true;
-            this.Source.Width = 150;
+            this.Source.Width = 165;
             // 
             // Date
             // 
             this.Date.HeaderText = "Date";
             this.Date.MinimumWidth = 8;
             this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
             this.Date.Width = 150;
             // 
             // Time
@@ -247,7 +244,6 @@
             this.Time.HeaderText = "Time";
             this.Time.MinimumWidth = 8;
             this.Time.Name = "Time";
-            this.Time.ReadOnly = true;
             this.Time.Width = 150;
             // 
             // Level
@@ -255,16 +251,14 @@
             this.Level.HeaderText = "Level";
             this.Level.MinimumWidth = 8;
             this.Level.Name = "Level";
-            this.Level.ReadOnly = true;
-            this.Level.Width = 150;
+            this.Level.Width = 140;
             // 
             // Message
             // 
             this.Message.HeaderText = "Message";
             this.Message.MinimumWidth = 8;
             this.Message.Name = "Message";
-            this.Message.ReadOnly = true;
-            this.Message.Width = 920;
+            this.Message.Width = 900;
             // 
             // LogAnalystApp
             // 
