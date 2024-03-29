@@ -27,7 +27,7 @@ namespace LogAnalystApp
         private async Task LoadLogEntriesAsync(List<LogEntry> logEntries)
         {
             dataGridViewLogEntries.Rows.Clear();
-            int batchSize = 100;
+            int batchSize = 10000;
 
             for (int i = 0; i < logEntries.Count; i += batchSize)
             {
@@ -71,7 +71,6 @@ namespace LogAnalystApp
             AddDatesToCartesianChart(logEntries);
         }
 
-
         private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -88,6 +87,7 @@ namespace LogAnalystApp
                 await LoadLogEntriesAsync(logEntries);
             }
         }
+
         private async void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -113,10 +113,11 @@ namespace LogAnalystApp
             }
         }
 
-
         private void clearLogsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridViewLogEntries.Rows.Clear();
+            LogLevelCartesianChart.Series.Clear();
+            LogLevelPieChart.Series.Clear();
         }
 
         private void AddLogLevelsToPieChart(List<LogEntry> logEntries)
@@ -237,22 +238,44 @@ namespace LogAnalystApp
             LogLevelCartesianChart.Series = cartesianSeries;
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private async void btnSearch_Click(object sender, EventArgs e)
         {
             string searchText = txtBoxSearch.Text.ToLower();
+            int batchSize = 50;
+
+
             foreach (DataGridViewRow row in dataGridViewLogEntries.Rows)
             {
-                bool found = false;
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchText))
-                    {
-                        found = true;
-                        break;
-                    }
+                    cell.Style.BackColor = Color.White;
                 }
-                row.Visible = found;
             }
+
+            for (int i = 0; i < dataGridViewLogEntries.Rows.Count; i += batchSize)
+            {
+                int remainingCount = Math.Min(batchSize, dataGridViewLogEntries.Rows.Count - i);
+
+                for (int j = i; j < i + remainingCount; j++)
+                {
+                    DataGridViewRow row = dataGridViewLogEntries.Rows[j];
+                    bool found = false;
+
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchText))
+                        {
+                            found = true;
+                            cell.Style.BackColor = Color.Yellow;
+                        }
+                    }
+
+                    row.Visible = found;
+                }
+
+                await Task.Delay(1);
+            }
+            MessageBox.Show("Search operation completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
