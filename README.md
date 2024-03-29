@@ -1,2 +1,2 @@
-<img width="853" alt="Screenshot 2024-03-25 162043" src="https://github.com/kaanboyacii/LogAnalyst/assets/98668706/3398f18b-2e73-4c03-8a1b-00f7df1eb138">
-<img width="848" alt="Screenshot 2024-03-25 162327" src="https://github.com/kaanboyacii/LogAnalyst/assets/98668706/93837f15-58b5-48ab-a4dc-6908657d9d57">
+<img width="810" alt="Screenshot 2024-03-29 121602" src="https://github.com/kaanboyacii/LogAnalyst/assets/98668706/fcbf98c2-fd46-4ba0-9ddc-b7fb418ee26a">
+<img width="809" alt="Screenshot 2024-03-29 121653" src="https://github.com/kaanboyacii/LogAnalyst/assets/98668706/2f783e15-8e70-4480-99ee-c80ae0b786b5">
