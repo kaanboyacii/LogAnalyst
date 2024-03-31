@@ -28,6 +28,7 @@ namespace LogAnalystApp
         {
             dataGridViewLogEntries.Rows.Clear();
             int batchSize = 10000;
+            int totalLogCount = 0; // Toplam log sayısını tutacak değişken
 
             for (int i = 0; i < logEntries.Count; i += batchSize)
             {
@@ -58,14 +59,18 @@ namespace LogAnalystApp
                             cellStyle.ForeColor = Color.Black;
                             break;
                     }
+
+                    totalLogCount++;
                 }
 
-                dataGridViewLogEntries.Refresh(); 
+                dataGridViewLogEntries.Refresh();
                 if (i + batchSize < logEntries.Count)
                 {
                     await Task.Delay(10);
                 }
             }
+
+            lblTotalLog.Text = $"Total Logs: {totalLogCount}";
             MessageBox.Show("Parse operation completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             AddLogLevelsToPieChart(logEntries);
             AddDatesToCartesianChart(logEntries);
@@ -118,6 +123,10 @@ namespace LogAnalystApp
             dataGridViewLogEntries.Rows.Clear();
             LogLevelCartesianChart.Series.Clear();
             LogLevelPieChart.Series.Clear();
+            txtBoxSearch.Clear();
+            lblLogFileName.Text = "";
+            lblTotalLog.Text = "";
+            MessageBox.Show("Logs were cleared successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void AddLogLevelsToPieChart(List<LogEntry> logEntries)
