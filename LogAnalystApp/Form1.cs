@@ -21,14 +21,13 @@ namespace LogAnalystApp
         {
             InitializeComponent();
             logParserService = new LogParserService();
-            //dataGridViewLogEntries.AutoResizeColumns();
         }
 
         private async Task LoadLogEntriesAsync(List<LogEntry> logEntries)
         {
             dataGridViewLogEntries.Rows.Clear();
             int batchSize = 10000;
-            int totalLogCount = 0; // Toplam log sayısını tutacak değişken
+            int totalLogCount = 0; 
 
             for (int i = 0; i < logEntries.Count; i += batchSize)
             {
@@ -74,6 +73,7 @@ namespace LogAnalystApp
             MessageBox.Show("Parse operation completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             AddLogLevelsToPieChart(logEntries);
             AddDatesToCartesianChart(logEntries);
+            AddLogEntriesToTimeCartesianChart(logEntries);
         }
 
         private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -285,6 +285,45 @@ namespace LogAnalystApp
                 await Task.Delay(1);
             }
             MessageBox.Show("Search operation completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        private void AddLogEntriesToTimeCartesianChart(List<LogEntry> logEntries)
+        {
+            Dictionary<string, int> logCountsByHour = new Dictionary<string, int>();
+
+            for (int hour = 0; hour < 24; hour++)
+            {
+                logCountsByHour[hour.ToString("00")] = 0;
+            }
+
+            foreach (var logEntry in logEntries)
+            {
+                string hour = logEntry.Time.Substring(0, 2);
+                logCountsByHour[hour]++;
+            }
+            TimeCartesianChart.Series = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Log Entries by Hour",
+                    Values = new ChartValues<int>(logCountsByHour.Values)
+                }
+            };
+
+            TimeCartesianChart.AxisX.Clear();
+            TimeCartesianChart.AxisX.Add(new Axis
+            {
+                Title = "Hour",
+                Labels = logCountsByHour.Keys.ToArray() 
+            });
+
+            TimeCartesianChart.AxisY.Clear();
+            TimeCartesianChart.AxisY.Add(new Axis
+            {
+                Title = "Log Entries Count",
+                LabelFormatter = value => value.ToString()
+            });
         }
     }
 }

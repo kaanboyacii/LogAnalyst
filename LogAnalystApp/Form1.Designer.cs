@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogAnalystApp));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblTotalLog = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtBoxSearch = new System.Windows.Forms.TextBox();
             this.lblLogFileName = new System.Windows.Forms.Label();
@@ -48,7 +49,7 @@
             this.LogLevelCartesianChart = new LiveCharts.WinForms.CartesianChart();
             this.LogLevelPieChart = new LiveCharts.WinForms.PieChart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.lblTotalLog = new System.Windows.Forms.Label();
+            this.TimeCartesianChart = new LiveCharts.WinForms.CartesianChart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLogEntries)).BeginInit();
@@ -86,6 +87,16 @@
             this.tabPage1.Size = new System.Drawing.Size(1616, 693);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Log Parser";
+            // 
+            // lblTotalLog
+            // 
+            this.lblTotalLog.AutoSize = true;
+            this.lblTotalLog.ForeColor = System.Drawing.Color.Black;
+            this.lblTotalLog.Location = new System.Drawing.Point(850, 41);
+            this.lblTotalLog.Name = "lblTotalLog";
+            this.lblTotalLog.Size = new System.Drawing.Size(100, 22);
+            this.lblTotalLog.TabIndex = 5;
+            this.lblTotalLog.Text = "Total Logs:";
             // 
             // btnSearch
             // 
@@ -190,7 +201,7 @@
             this.OpenFile.Location = new System.Drawing.Point(3, 3);
             this.OpenFile.Name = "OpenFile";
             this.OpenFile.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.OpenFile.Size = new System.Drawing.Size(1610, 36);
+            this.OpenFile.Size = new System.Drawing.Size(1610, 32);
             this.OpenFile.TabIndex = 0;
             this.OpenFile.Text = "OpenFile";
             // 
@@ -198,7 +209,7 @@
             // 
             this.openFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFileToolStripMenuItem.Image")));
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(128, 32);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(128, 28);
             this.openFileToolStripMenuItem.Text = "Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
@@ -206,7 +217,7 @@
             // 
             this.openFolderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFolderToolStripMenuItem.Image")));
             this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(150, 32);
+            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(150, 28);
             this.openFolderToolStripMenuItem.Text = "Open Folder";
             this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
             // 
@@ -214,7 +225,7 @@
             // 
             this.clearLogsToolStripMenuItem.Image = global::LogAnalystApp.Properties.Resources._979773;
             this.clearLogsToolStripMenuItem.Name = "clearLogsToolStripMenuItem";
-            this.clearLogsToolStripMenuItem.Size = new System.Drawing.Size(137, 32);
+            this.clearLogsToolStripMenuItem.Size = new System.Drawing.Size(137, 28);
             this.clearLogsToolStripMenuItem.Text = "Clear Logs";
             this.clearLogsToolStripMenuItem.Click += new System.EventHandler(this.clearLogsToolStripMenuItem_Click);
             // 
@@ -223,6 +234,7 @@
             this.tabPage2.BackColor = System.Drawing.Color.White;
             this.tabPage2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage2.BackgroundImage")));
             this.tabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage2.Controls.Add(this.TimeCartesianChart);
             this.tabPage2.Controls.Add(this.LogLevelCartesianChart);
             this.tabPage2.Controls.Add(this.LogLevelPieChart);
             this.tabPage2.Location = new System.Drawing.Point(4, 31);
@@ -237,7 +249,7 @@
             this.LogLevelCartesianChart.Location = new System.Drawing.Point(602, 8);
             this.LogLevelCartesianChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.LogLevelCartesianChart.Name = "LogLevelCartesianChart";
-            this.LogLevelCartesianChart.Size = new System.Drawing.Size(1010, 578);
+            this.LogLevelCartesianChart.Size = new System.Drawing.Size(1010, 389);
             this.LogLevelCartesianChart.TabIndex = 2;
             this.LogLevelCartesianChart.Text = "cartesianChart1";
             // 
@@ -247,7 +259,7 @@
             this.LogLevelPieChart.Location = new System.Drawing.Point(9, 8);
             this.LogLevelPieChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.LogLevelPieChart.Name = "LogLevelPieChart";
-            this.LogLevelPieChart.Size = new System.Drawing.Size(598, 578);
+            this.LogLevelPieChart.Size = new System.Drawing.Size(598, 389);
             this.LogLevelPieChart.TabIndex = 1;
             this.LogLevelPieChart.Text = "Log Level Pie Chart";
             // 
@@ -262,15 +274,13 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Settings";
             // 
-            // lblTotalLog
+            // TimeCartesianChart
             // 
-            this.lblTotalLog.AutoSize = true;
-            this.lblTotalLog.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalLog.Location = new System.Drawing.Point(850, 41);
-            this.lblTotalLog.Name = "lblTotalLog";
-            this.lblTotalLog.Size = new System.Drawing.Size(100, 22);
-            this.lblTotalLog.TabIndex = 5;
-            this.lblTotalLog.Text = "Total Logs:";
+            this.TimeCartesianChart.Location = new System.Drawing.Point(8, 405);
+            this.TimeCartesianChart.Name = "TimeCartesianChart";
+            this.TimeCartesianChart.Size = new System.Drawing.Size(1595, 256);
+            this.TimeCartesianChart.TabIndex = 3;
+            this.TimeCartesianChart.Text = "cartesianChart1";
             // 
             // LogAnalystApp
             // 
@@ -321,6 +331,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Message;
         private System.Windows.Forms.Label lblTotalLog;
+        private LiveCharts.WinForms.CartesianChart TimeCartesianChart;
     }
 }
 
